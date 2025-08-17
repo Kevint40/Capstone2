@@ -1,0 +1,44 @@
+const wd= require('wd'); // Optional: For running system commands (not used here)
+const assert = require('assert');
+const {execSync}= require('child_process')
+const PORT = 4723;
+const config={ 
+    capabilities: {
+        platformName: 'Android',
+        deviceName: 'ZY22KSFZV4',
+        udid: 'ZY22KSFZV4',
+        automationName: 'UiAutomator2',
+        platformVersion: "14",
+        appPackage:  "com.google.android.deskclock",
+        appActivity: "com.android.deskclock.DeskClock",
+        noReset: true
+      },
+        
+    }
+    };
+const driver = wd.promiseChainRemote('127.0.0.1', PORT);
+const driver = wd.promiseChainRemote("http://127.0.0.1:4723");
+async function main() {
+  try { 
+      await driver.init(config);
+  
+ await driver.elementByXpath('
+//android.widget.Image[@text="Surf Excel Easy Wash Detergent Powder - 500 g"]
+
+').click();
+await driver.elementBy('
+button-cart’)
+
+.click();
+  } catch (err) {
+    // Log if any error occurs during the test
+    console.error(' Test failed -', err);
+  } finally {
+    // Quit the session
+    await driver.quit();
+  }
+}
+
+
+// Execute the test
+main();
